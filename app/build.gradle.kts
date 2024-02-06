@@ -20,7 +20,7 @@ dependencies {
     testImplementation("io.strikt:strikt-core:0.34.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
 }
 
