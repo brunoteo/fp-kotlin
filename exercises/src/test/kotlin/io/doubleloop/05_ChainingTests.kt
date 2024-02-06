@@ -2,13 +2,12 @@ package io.doubleloop
 
 import arrow.core.Either
 import arrow.core.Option
+import arrow.core.flatMap
 import arrow.core.right
 import arrow.core.some
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
-// TODO 1: remove the disabled annotation and make all tests green
-@Disabled
 class ChainingTests {
 
     data class ItemId(val id: Int)
@@ -27,11 +26,11 @@ class ChainingTests {
         fun save(item: Item): Option<Unit> =
             Unit.some()
 
-        // TODO 1: write a program that:
-        //  load item id 123,
-        //  check in 10 and
-        //  finally save the item
-        val program: Option<Unit> = TODO()
+        val program: Option<Unit> =
+            ItemId(123)
+                .let(::load)
+                .map { it.checkIn(10) }
+                .flatMap(::save)
     }
 
     @Test
@@ -44,10 +43,10 @@ class ChainingTests {
         fun save(item: Item): Either<String, Unit> =
             Unit.right()
 
-        // TODO 2: write a program that:
-        //  load item id 123,
-        //  check in 10 and
-        //  finally save the item
-        val program: Either<String, Unit> = TODO()
+        val program: Either<String, Unit> =
+            ItemId(123)
+                .let(::load)
+                .map { it.checkIn(10) }
+                .flatMap(::save)
     }
 }
