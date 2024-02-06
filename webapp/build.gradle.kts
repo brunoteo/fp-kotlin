@@ -29,7 +29,7 @@ dependencies {
     testImplementation("org.http4k:http4k-testing-strikt:5.13.2.0")
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
 }
 
 application {
