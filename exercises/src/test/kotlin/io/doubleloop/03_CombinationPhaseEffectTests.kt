@@ -9,7 +9,6 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 // TODO 1: remove the disabled annotation and make all tests green
-@Disabled
 class CombinationPhaseEffectTests {
 
     data class Item(val qty: Int) {
@@ -29,9 +28,9 @@ class CombinationPhaseEffectTests {
     fun `creation and checkOut`() {
         val item = parseItem("100")
 
-        // TODO 2: use 'flatMap' to 'checkOut(10)'
-        //   and observe the result
-        val result = item
+        val result = item.flatMap {
+            it.checkOut(10)
+        }
 
         expectThat(result).isEqualTo(Some(Item(90)))
     }
@@ -40,9 +39,9 @@ class CombinationPhaseEffectTests {
     fun `creation and invalid checkOut`() {
         val item = parseItem("10")
 
-        // TODO 3: use 'flatMap' to 'checkOut(110)'
-        //   and observe the result
-        val result = item
+        val result = item.flatMap {
+            it.checkOut(110)
+        }
 
         expectThat(result).isEqualTo(None)
     }
@@ -52,9 +51,9 @@ class CombinationPhaseEffectTests {
     fun `invalid creation and checkOut`(input: String) {
         val item = parseItem(input)
 
-        // TODO 4: use 'flatMap' to 'checkOut(10)'
-        //   and observe the result
-        val result = item
+        val result = item.flatMap {
+            it.checkOut(10)
+        }
 
         expectThat(result).isEqualTo(None)
     }
@@ -63,11 +62,9 @@ class CombinationPhaseEffectTests {
     fun `creation, checkIn and checkOut`() {
         val item = parseItem("100")
 
-        // TODO 5:
-        //  use 'map' to 'checkIn(10)'
-        //  use 'flatMap' to 'checkOut(20)'
-        //   and observe the result
         val result = item
+            .map { it.checkIn(10) }
+            .flatMap { it.checkOut(20) }
 
         expectThat(result).isEqualTo(Some(Item(90)))
     }
