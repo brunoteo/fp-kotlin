@@ -17,33 +17,51 @@ sealed class Orientation {
     data object W : Orientation()
     data object S : Orientation()
 
-    // TODO 1: Change orientation
     fun turnRight(): Orientation =
-        TODO()
+        when (this) {
+            E -> S
+            N -> E
+            S -> W
+            W -> N
+        }
 
-    // TODO 2: Change orientation
     fun turnLeft(): Orientation =
-        TODO()
+        when (this) {
+            E -> N
+            N -> W
+            S -> E
+            W -> S
+        }
 }
 
 data class Position(val x: Int, val y: Int)
 
 data class Rover(val position: Position, val orientation: Orientation) {
-    // TODO 3: Change rover orientation
     fun turnRight(): Rover =
-        TODO()
+        copy(orientation = orientation.turnRight())
 
-    // TODO 4: Change rover orientation
     fun turnLeft(): Rover =
-        TODO()
+        copy(orientation = orientation.turnLeft())
 
-    // TODO 5: Change rover position
     fun moveForward(planet: Planet): Rover =
-        TODO()
+        when (this.orientation) {
+            Orientation.E -> position.copy(x = position.x + 1)
+            Orientation.N -> position.copy(y = position.y + 1)
+            Orientation.S -> position.copy(y = position.y - 1)
+            Orientation.W -> position.copy(x = position.x - 1)
+        }.let {
+            copy(position = planet.wrap(it))
+        }
 
-    // TODO 6: Change rover position
     fun moveBackward(planet: Planet): Rover =
-        TODO()
+        when (this.orientation) {
+            Orientation.E -> position.copy(x = position.x - 1)
+            Orientation.N -> position.copy(y = position.y - 1)
+            Orientation.S -> position.copy(y = position.y + 1)
+            Orientation.W -> position.copy(x = position.x + 1)
+        }.let {
+            copy(position = planet.wrap(it))
+        }
 }
 
 
@@ -67,11 +85,16 @@ sealed class Command {
     data object TurnRight : Command()
     data object TurnLeft : Command()
 
-    // TODO 7: Dispatch each command to the specific function
     fun execute(planet: Planet, rover: Rover): Rover =
-        TODO()
+        when (this) {
+            MoveBackward -> rover.moveBackward(planet)
+            MoveForward -> rover.moveForward(planet)
+            TurnLeft -> rover.turnLeft()
+            TurnRight -> rover.turnRight()
+        }
 }
 
-// TODO 8: Execute all commands and return final rover state
 fun executeAll(planet: Planet, rover: Rover, commands: List<Command>): Rover =
-    TODO()
+    commands.fold(rover) { acc, command ->
+        command.execute(planet, acc)
+    }

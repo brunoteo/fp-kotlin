@@ -35,7 +35,6 @@ sealed class Command {
     data object Forward: Command()
     data object Backward: Command()
 }
-
 enum class Command2 {
     LEFT,
     RIGHT,
