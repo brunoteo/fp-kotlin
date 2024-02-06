@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-// TODO 1: remove the disabled annotation and make all tests green
-@Disabled
 class CombinationPhaseListTests {
 
     data class Item(val qty: Int)
@@ -24,10 +22,8 @@ class CombinationPhaseListTests {
         val items: List<Option<Item>> = listOf("1", "10", "100")
             .map { parseItem(it) }
 
-        // TODO 1: change expected value
-        //    pay attention to items type
         expectThat(items).isEqualTo(
-            TODO()
+            listOf(Item(1).some(), Item(10).some(), Item(100).some())
         )
     }
 
@@ -36,10 +32,8 @@ class CombinationPhaseListTests {
         val items: List<Option<Item>> = listOf("1", "asd", "100")
             .map { parseItem(it) }
 
-        // TODO 2: change expected value
-        //    pay attention to items type
         expectThat(items).isEqualTo(
-            TODO()
+            listOf(Item(1).some(), none(), Item(100).some())
         )
     }
 
@@ -50,10 +44,8 @@ class CombinationPhaseListTests {
                 .map { parseItem(it).bind() }
         }
 
-        // TODO 3: change expected value
-        //    pay attention to items type
         expectThat(items).isEqualTo(
-            TODO()
+            listOf(Item(1), Item(10), Item(100)).some()
         )
     }
 
@@ -64,10 +56,8 @@ class CombinationPhaseListTests {
                 .map { parseItem(it).bind() }
         }
 
-        // TODO 4: change expected value
-        //    pay attention to items type
         expectThat(items).isEqualTo(
-            TODO()
+            none()
         )
     }
 }
