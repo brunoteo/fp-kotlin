@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-// TODO 1: remove the disabled annotation and make all tests green
-@Disabled
 class CustomOptionTests {
 
     fun increment(x: Int): Int =
@@ -18,7 +16,6 @@ class CustomOptionTests {
 
     @Test
     fun `creation phase`() {
-        // TODO 2: implement 'of' function
         val result = Option.of(10)
 
         expectThat(result).isEqualTo(Option.Some(10))
@@ -26,7 +23,6 @@ class CustomOptionTests {
 
     @Test
     fun `combination phase - normal`() {
-        // TODO 3: implement 'map' function
         val result = Option.of(10)
             .map { increment(it) }
 
@@ -35,7 +31,6 @@ class CustomOptionTests {
 
     @Test
     fun `combination phase - effect`() {
-        // TODO 4: implement 'flatMap' function
         val result = Option.of(10)
             .flatMap { string(it) }
 
@@ -44,7 +39,6 @@ class CustomOptionTests {
 
     @Test
     fun `removal phase - value`() {
-        // TODO 5: implement 'fold' function
         val result = Option.of(10)
             .fold({ "empty" }, { "value: $it" })
 
@@ -59,7 +53,6 @@ class CustomOptionTests {
         expectThat(result).isEqualTo("empty")
     }
 
-    // TODO 6: check if functor laws holds
     @Test
     fun `functor laws - identity`() {
         val result = Option.of(10)
@@ -78,7 +71,6 @@ class CustomOptionTests {
         expectThat(result).isEqualTo(expected)
     }
 
-    // TODO 7: check if monad laws holds
     @Test
     fun `monad laws - left identity`() {
         val result = Option.of(10)
@@ -111,19 +103,28 @@ class CustomOptionTests {
 
         companion object {
             fun <A> of(value: A): Option<A> =
-                TODO()
+                Some(value)
 
             fun <A> none(): Option<A> =
                 None
         }
 
         fun <B> map(f: (A) -> B): Option<B> =
-            TODO()
+            when (this) {
+                is Some -> Some(f(this.value))
+                is None -> None
+            }
 
         fun <B> flatMap(f: (A) -> Option<B>): Option<B> =
-            TODO()
+            when (this) {
+                is Some -> f(this.value)
+                is None -> None
+            }
 
         fun <B> fold(ifEmpty: () -> B, ifSome: (A) -> B): B =
-            TODO()
+            when (this) {
+                is Some -> ifSome(this.value)
+                is None -> ifEmpty()
+            }
     }
 }
