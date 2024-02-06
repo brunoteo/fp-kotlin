@@ -18,12 +18,12 @@ sealed class Orientation {
     data object West: Orientation()
     data object East: Orientation()
 }
-enum class Orientation2 {
-    NORTH,
-    SOUTH,
-    WEST,
-    EST
-}
+//enum class Orientation2 {
+//    NORTH,
+//    SOUTH,
+//    WEST,
+//    EST
+//}
 
 data class Planet(val size: Size, val obstacles: List<Obstacle>)
 data class Size(val width: Int, val height: Int)
@@ -35,9 +35,9 @@ sealed class Command {
     data object Forward: Command()
     data object Backward: Command()
 }
-enum class Command2 {
-    LEFT,
-    RIGHT,
-    FORWARD,
-    BACKWARD
-}
+//enum class Command2 {
+//    LEFT,
+//    RIGHT,
+//    FORWARD,
+//    BACKWARD
+//}
