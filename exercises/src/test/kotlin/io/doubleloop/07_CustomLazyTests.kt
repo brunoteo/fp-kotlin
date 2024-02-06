@@ -2,14 +2,11 @@ package io.doubleloop
 
 import arrow.core.identity
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEmpty
 import strikt.assertions.isEqualTo
 
-// TODO 1: remove the disabled annotation and make all tests green
-@Disabled
 class CustomLazyTests {
 
     private var logs = ""
@@ -31,7 +28,6 @@ class CustomLazyTests {
 
     @Test
     fun `creation phase`() {
-        // TODO 2: implement 'of' function
         val result = Lazy.of { 10 }
 
         expectThat(logs).isEmpty()
@@ -126,16 +122,16 @@ class CustomLazyTests {
 
         companion object {
             fun <A> of(value: () -> A): Lazy<A> =
-                TODO()
+                Lazy(value)
         }
 
         fun <B> map(f: (A) -> B): Lazy<B> =
-            TODO()
+            Lazy { f(value()) }
 
         fun <B> flatMap(f: (A) -> Lazy<B>): Lazy<B> =
-            TODO()
+            Lazy { f(value()).run() }
 
-        fun run(): A =
-            TODO()
+        fun run(): A = this.value()
+
     }
 }
