@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.ValueSource
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-// TODO 1: remove the disabled annotation and make all tests green
 class CombinationPhaseEffectTests {
 
     data class Item(val qty: Int) {

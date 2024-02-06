@@ -10,7 +10,7 @@ import strikt.assertions.isEqualTo
 class CombinationPhaseEffectTests {
     // Monad:
     // 1. type constructor:
-    //      OptionF<A>
+    //      Option<A>
     // 2. flatMap (alias: bind, chain) function:
     //      (A -> Option<B>) -> Option<A> -> Option<B>
     // 3. respect laws (tests)

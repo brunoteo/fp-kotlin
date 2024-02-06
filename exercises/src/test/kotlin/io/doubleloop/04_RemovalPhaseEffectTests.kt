@@ -11,8 +11,6 @@ import org.junit.jupiter.params.provider.ValueSource
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-// TODO 1: remove the disabled annotation and make all tests green
-@Disabled
 class RemovalPhaseTests {
 
     data class Item(val qty: Int) {
@@ -35,8 +33,7 @@ class RemovalPhaseTests {
         val result = item
             .getOrElse { Item(0) }
 
-        // TODO 2: change expected value
-        expectThat(result).isEqualTo(TODO())
+        expectThat(result).isEqualTo(Item(100))
     }
 
     @ParameterizedTest
@@ -47,8 +44,7 @@ class RemovalPhaseTests {
         val result = item
             .getOrElse { Item(0) }
 
-        // TODO 3: change expected value
-        expectThat(result).isEqualTo(TODO())
+        expectThat(result).isEqualTo(Item(0))
     }
 
     @Test
@@ -60,8 +56,7 @@ class RemovalPhaseTests {
             .flatMap { it.checkOut(20) }
             .getOrElse { Item(0) }
 
-        // TODO 4: change expected value
-        expectThat(result).isEqualTo(TODO())
+        expectThat(result).isEqualTo(Item(90))
     }
 
     @Test
@@ -71,8 +66,7 @@ class RemovalPhaseTests {
         val result = item
             .fold({ "alternative" }, { it.qty.toString() })
 
-        // TODO 5: change expected value
-        expectThat(result).isEqualTo(TODO())
+        expectThat(result).isEqualTo("100")
     }
 
     @ParameterizedTest
@@ -83,7 +77,6 @@ class RemovalPhaseTests {
         val result = item
             .fold({ "alternative" }, { it.qty.toString() })
 
-        // TODO 5: change expected value
-        expectThat(result).isEqualTo(TODO())
+        expectThat(result).isEqualTo("alternative")
     }
 }
