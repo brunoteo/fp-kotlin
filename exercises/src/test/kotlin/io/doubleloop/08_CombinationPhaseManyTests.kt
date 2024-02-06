@@ -11,8 +11,6 @@ import org.junit.jupiter.params.provider.ValueSource
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
-// TODO 1: remove the disabled annotation and make all tests green
-@Disabled
 class CombinationPhaseManyTests {
 
     data class Item(val name: String, val qty: Int) {
@@ -24,14 +22,19 @@ class CombinationPhaseManyTests {
             else copy(qty = this.qty - qty).some()
     }
 
-    // TODO 2: create an item only if name and quantity are valid
     fun parseItem(name: String, qty: String): Option<Item> =
-        TODO()
+        parseName(name)
+            .flatMap { validName ->
+                parseQty(qty)
+                    .map { validQty -> Item(validName, validQty) }
+            }
 
-    // TODO 3: same as before but using option syntax
-    fun parseItemSyntax(name: String, qty: String): Option<Item> = option {
-        TODO()
-    }
+    fun parseItemSyntax(name: String, qty: String): Option<Item> =
+        option {
+            val validName = parseName(name).bind()
+            val validQty = parseQty(qty).bind()
+            Item(validName, validQty)
+        }
 
     fun parseName(value: String): Option<String> =
         if (value.trim().isNotEmpty()) value.some()
