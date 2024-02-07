@@ -29,12 +29,9 @@ fun runApp(
     inputCommands: String
 ): Either<ParseError, String> =
     runMission(inputPlanet, inputRover, inputCommands)
-        .map { renderMission(it) }
+        .map(::renderMission)
 
-private fun renderMission(rover: Either<ObstacleDetected, Rover>) = rover.fold(
-    { renderObstacle(it) },
-    { renderComplete(it) }
-)
+private fun renderMission(rover: Either<ObstacleDetected, Rover>): String = rover.fold(::renderObstacle, ::renderComplete)
 
 fun runMission(
     inputPlanet: Pair<String, String>,
