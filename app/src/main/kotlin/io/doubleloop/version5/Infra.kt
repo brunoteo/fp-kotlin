@@ -19,19 +19,13 @@ import io.doubleloop.utils.Console.logInfo
 import io.doubleloop.utils.File.loadPair
 import kotlin.coroutines.suspendCoroutine
 
-// TODO 1: go to Ports.kt and get familiar with the interfaces
-
-// TODO 2: go to Adapters.kt and solve the TODOs
-
-// TODO 9: instantiate adapters
 suspend fun runApp(planetFile: String, roverFile: String) {
-    val fileMissionSource = TODO()
-    val consoleCommandsChannel = TODO()
-    val consoleMissionReport = TODO()
+    val fileMissionSource = FileMissionSource(planetFile, roverFile)
+    val consoleCommandsChannel = ConsoleCommandsChannel()
+    val consoleMissionReport = ConsoleMissionReport()
     runApp(fileMissionSource, consoleCommandsChannel, consoleMissionReport)
 }
 
-// TODO 10: replace write* function calls with missionReport methods
 suspend fun runApp(
     missionSource: MissionSource,
     commandsChannel: CommandsChannel,
@@ -40,20 +34,19 @@ suspend fun runApp(
     catch({
         runMission(missionSource, commandsChannel)
             .fold(
-                { writeObstacleDetected(it) },
-                { writeSequenceCompleted(it) }
+                { missionReport.obstacleDetected(it) },
+                { missionReport.sequenceCompleted(it) }
             )
-    }) { writeError(it) }
+    }) { missionReport.error(it) }
 }
 
-// TODO 11: use missionSource and commandsChannel to get data
 suspend fun runMission(
     missionSource: MissionSource,
     commandsChannel: CommandsChannel
 ): Either<ObstacleDetected, Rover> {
-    val planet = TODO()
-    val rover = TODO()
-    val commands = TODO()
+    val planet = missionSource.readPlanet()
+    val rover = missionSource.readRover()
+    val commands = commandsChannel.receive()
     return executeAll(planet, rover, commands)
 }
 

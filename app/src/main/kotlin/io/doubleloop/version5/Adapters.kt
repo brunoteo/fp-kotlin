@@ -1,31 +1,25 @@
 package io.doubleloop.version5
 
 class FileMissionSource(private val planetFile: String, private val roverFile: String) : MissionSource {
-    // TODO 3: call load planet function
     override suspend fun readPlanet(): Planet =
-        TODO()
+        loadPlanet(planetFile)
 
-    // TODO 4: call load rover function
     override suspend fun readRover(): Rover =
-        TODO()
+        loadRover(roverFile)
 }
 
 class ConsoleCommandsChannel : CommandsChannel {
-    // TODO 5: call load commands function
     override suspend fun receive(): List<Command> =
-        TODO()
+        loadCommands()
 }
 
 class ConsoleMissionReport : MissionReport {
-    // TODO 6: call write sequence completed function
     override suspend fun sequenceCompleted(rover: Rover) =
-        TODO()
+        writeSequenceCompleted(rover)
 
-    // TODO 7: call write obstacle detected function
     override suspend fun obstacleDetected(rover: ObstacleDetected) =
-        TODO()
+        writeObstacleDetected(rover)
 
-    // TODO 8: call write error function
     override suspend fun error(error: Throwable) =
-        TODO()
+        writeError(error)
 }

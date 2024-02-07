@@ -14,7 +14,6 @@ import java.io.PrintStream
 
 class InfraTests {
 
-    @Disabled
     @Test
     fun `go to opposite angle (integration)`() = runTest {
         val result = runCaptureOutput("RBBLBRF") {
@@ -23,7 +22,6 @@ class InfraTests {
         expectThat(result).isEqualTo("${Console.GREEN}[OK] 4:3:E${Console.RESET}")
     }
 
-    @Disabled
     @Test
     fun `go to opposite angle`() = runTest {
         val missionSource = StubMissionSource(
@@ -48,7 +46,6 @@ class InfraTests {
         expectThat(missionReport.output).isEqualTo("COMPLETED: Rover(position=Position(x=4, y=3), orientation=E)")
     }
 
-    @Disabled
     @Test
     fun `hit obstacle during commands execution`() = runTest {
         val missionSource = StubMissionSource(
