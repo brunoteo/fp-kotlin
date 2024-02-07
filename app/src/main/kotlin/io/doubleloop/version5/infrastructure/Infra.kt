@@ -1,4 +1,4 @@
-package io.doubleloop.version5
+package io.doubleloop.version5.infrastructure
 
 /*
     ## V5 - Testability via injection (Port/Adapter architectural style)
@@ -17,6 +17,14 @@ import io.doubleloop.utils.Console.ask
 import io.doubleloop.utils.Console.logError
 import io.doubleloop.utils.Console.logInfo
 import io.doubleloop.utils.File.loadPair
+import io.doubleloop.version5.domain.Command
+import io.doubleloop.version5.domain.ObstacleDetected
+import io.doubleloop.version5.domain.Planet
+import io.doubleloop.version5.domain.Rover
+import io.doubleloop.version5.domain.executeAll
+import io.doubleloop.version5.domain.CommandsChannel
+import io.doubleloop.version5.domain.MissionReport
+import io.doubleloop.version5.domain.MissionSource
 import kotlin.coroutines.suspendCoroutine
 
 suspend fun runApp(planetFile: String, roverFile: String) {

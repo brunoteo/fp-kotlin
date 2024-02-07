@@ -1,10 +1,10 @@
-package io.doubleloop.version5
+package io.doubleloop.version5.domain
 
 import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.left
 import arrow.core.right
-import io.doubleloop.version5.Orientation.*
+import io.doubleloop.version5.domain.Orientation.*
 
 data class Obstacle(val x: Int, val y: Int)
 data class Planet(val size: Size, val obstacles: List<Obstacle>) {

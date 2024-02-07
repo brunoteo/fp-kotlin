@@ -1,10 +1,20 @@
 package io.doubleloop.version5
 
 import io.doubleloop.utils.Console
-import io.doubleloop.version5.Command.*
-import io.doubleloop.version5.Orientation.N
+import io.doubleloop.version5.domain.Command
+import io.doubleloop.version5.domain.Command.*
+import io.doubleloop.version5.domain.Obstacle
+import io.doubleloop.version5.domain.ObstacleDetected
+import io.doubleloop.version5.domain.Orientation.N
+import io.doubleloop.version5.domain.Planet
+import io.doubleloop.version5.domain.Position
+import io.doubleloop.version5.domain.Rover
+import io.doubleloop.version5.domain.Size
+import io.doubleloop.version5.domain.CommandsChannel
+import io.doubleloop.version5.domain.MissionReport
+import io.doubleloop.version5.domain.MissionSource
+import io.doubleloop.version5.infrastructure.runApp
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo

@@ -1,12 +1,20 @@
-package io.doubleloop.version5
+package io.doubleloop.version5.infrastructure
 
 import arrow.core.Either
 import arrow.core.left
 import arrow.core.raise.either
 import arrow.core.right
-import io.doubleloop.version5.Command.*
-import io.doubleloop.version5.Orientation.*
-import io.doubleloop.version5.ParseError.*
+import io.doubleloop.version5.domain.Command.*
+import io.doubleloop.version5.domain.Orientation.*
+import io.doubleloop.version5.infrastructure.ParseError.*
+import io.doubleloop.version5.domain.Command
+import io.doubleloop.version5.domain.Obstacle
+import io.doubleloop.version5.domain.ObstacleDetected
+import io.doubleloop.version5.domain.Orientation
+import io.doubleloop.version5.domain.Planet
+import io.doubleloop.version5.domain.Position
+import io.doubleloop.version5.domain.Rover
+import io.doubleloop.version5.domain.Size
 
 sealed class ParseError {
     data class InvalidPlanet(val message: String) : ParseError()
