@@ -12,20 +12,19 @@ package io.doubleloop.version3
  */
 
 import arrow.core.Either
+import arrow.core.flatMap
+import arrow.core.left
 import arrow.core.right
 import io.doubleloop.version3.Orientation.*
 
-// TODO 7: check version3/Parsing.kt for more TODOs
 
-// TODO 6: fix the implementation in order to propagate the Either<ObstacleDetected, Rover>
 // HINT: lift initial value
 // HINT: combine previous execute result with the current one
 // HINT: combination phase effect (Monad)
 fun executeAll(planet: Planet, rover: Rover, commands: List<Command>): Either<ObstacleDetected, Rover> {
     val initial: Either<ObstacleDetected, Rover> = rover.right()
     return commands.fold(initial) { prev, cmd ->
-        // cmd.execute(planet, prev)
-        TODO()
+        prev.flatMap { cmd.execute(planet, it) }
     }
 }
 
@@ -35,12 +34,11 @@ sealed class Command {
     data object TurnRight : Command()
     data object TurnLeft : Command()
 
-    // TODO 5: fix the implementation in order to propagate Either<ObstacleDetected, Rover>
     // HINT: lift pure values to align return types
-    fun execute(planet: Planet, rover: Rover): Rover =
+    fun execute(planet: Planet, rover: Rover): Either<ObstacleDetected, Rover> =
         when (this) {
-            is TurnRight -> rover.turnRight()
-            is TurnLeft -> rover.turnLeft()
+            is TurnRight -> rover.turnRight().right()
+            is TurnLeft -> rover.turnLeft().right()
             is MoveForward -> rover.moveForward(planet)
             is MoveBackward -> rover.moveBackward(planet)
         }
@@ -53,27 +51,26 @@ data class Rover(val position: Position, val orientation: Orientation) {
     fun turnLeft(): Rover =
         copy(orientation = orientation.turnLeft())
 
-    // TODO 4: fix the implementation in order to propagate Either<ObstacleDetected, Rover>
     // HINT: combination phase normal (Functor)
-    fun moveForward(planet: Planet): Rover =
-        copy(position = next(planet, delta(orientation)))
+    fun moveForward(planet: Planet): Either<ObstacleDetected, Rover> =
+        next(planet, delta(orientation))
+            .map { copy(position = it) }
 
-    // TODO 3: fix the implementation in order to propagate Either<ObstacleDetected, Rover>
+
     // HINT: combination phase normal (Functor)
-    fun moveBackward(planet: Planet): Rover =
-        copy(position = next(planet, delta(orientation.opposite())))
+    fun moveBackward(planet: Planet): Either<ObstacleDetected, Rover> =
+        next(planet, delta(orientation.opposite()))
+            .map { copy(position = it) }
 
-    // TODO 2: Remove this old next function
-    private fun next(planet: Planet, delta: Delta): Position {
-        return planet.wrap(position.shift(delta))
-    }
+//    private fun next(planet: Planet, delta: Delta): Position {
+//        return planet.wrap(position.shift(delta))
+//    }
 
-    // TODO 1: Uncomment the new next function and get familiar with the code
-    //  private fun next(planet: Planet, delta: Delta): Either<ObstacleDetected, Position> {
-    //      val candidate = planet.wrap(position.shift(delta))
-    //      val hitObstacle = planet.obstacles.any { Position(it.x, it.y) == candidate }
-    //      return if (hitObstacle) obstacleDetected().left() else candidate.right()
-    //  }
+      private fun next(planet: Planet, delta: Delta): Either<ObstacleDetected, Position> {
+          val candidate = planet.wrap(position.shift(delta))
+          val hitObstacle = planet.obstacles.any { Position(it.x, it.y) == candidate }
+          return if (hitObstacle) this.left() else candidate.right()
+      }
 
     private fun delta(orientation: Orientation): Delta =
         when (orientation) {

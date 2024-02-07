@@ -1,6 +1,7 @@
 package io.doubleloop.version3
 
 import arrow.core.Either
+import arrow.core.flatMap
 import arrow.core.left
 import arrow.core.raise.either
 import arrow.core.right
@@ -16,12 +17,10 @@ sealed class ParseError {
 fun renderComplete(rover: Rover): String =
     "${rover.position.x}:${rover.position.y}:${rover.orientation}"
 
-// TODO 8: convert the rover in a string
 // HINT: format "O:positionX:positionY:orientation"
 fun renderObstacle(rover: ObstacleDetected): String =
-    TODO()
+    "O:${renderComplete(rover)}"
 
-// TODO 9: call `runMission` and consume the Either<ObstacleDetected, Rover>
 // HINT: keep the parsing Either
 // HINT: use proper renderObstacle or renderComplete to produce the final string
 // HINT: combine phase normal (Functor) and then removal phase
@@ -30,7 +29,13 @@ fun runApp(
     inputRover: Pair<String, String>,
     inputCommands: String
 ): Either<ParseError, String> =
-    TODO()
+    runMission(inputPlanet, inputRover, inputCommands)
+        .map {
+            it.fold(
+                { obstacleDetected -> renderObstacle(obstacleDetected) },
+                { rover -> renderComplete(rover) }
+            )
+        }
 
 fun runMission(
     inputPlanet: Pair<String, String>,

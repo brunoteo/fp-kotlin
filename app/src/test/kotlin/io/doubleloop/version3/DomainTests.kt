@@ -12,7 +12,6 @@ import strikt.assertions.isEqualTo
 
 class DomainTests {
 
-    @Disabled
     @Test
     fun `turn right command`() {
         val planet = Planet(Size(5, 4), listOf())
@@ -21,11 +20,9 @@ class DomainTests {
 
         val result = command.execute(planet, rover)
 
-        // TODO: uncomment after changing the return type of command.execute
-        // expectThat(result).isEqualTo(Rover(Position(0, 0), E).right())
+         expectThat(result).isEqualTo(Rover(Position(0, 0), E).right())
     }
 
-    @Disabled
     @Test
     fun `move forward command`() {
         val planet = Planet(Size(5, 4), listOf())
@@ -34,11 +31,9 @@ class DomainTests {
 
         val result = command.execute(planet, rover)
 
-        // TODO: uncomment after changing the return type of command.execute
-        // expectThat(result).isEqualTo(Rover(Position(0, 2), N).right())
+         expectThat(result).isEqualTo(Rover(Position(0, 2), N).right())
     }
 
-    @Disabled
     @Test
     fun `hit an obstacle`() {
         val planet = Planet(Size(5, 4), listOf(Obstacle(0, 2)))
@@ -47,11 +42,9 @@ class DomainTests {
 
         val result = command.execute(planet, rover)
 
-        // TODO: uncomment after changing the return type of command.execute
-        // expectThat(result).isEqualTo(Rover(Position(0, 1), N).left())
+         expectThat(result).isEqualTo(Rover(Position(0, 1), N).left())
     }
 
-    @Disabled
     @Test
     fun `many commands`() {
         val planet = Planet(Size(5, 4), listOf(Obstacle(2, 0), Obstacle(0, 3), Obstacle(3, 2)))
@@ -63,7 +56,6 @@ class DomainTests {
         expectThat(result).isEqualTo(Rover(Position(4, 3), N).right())
     }
 
-    @Disabled
     @Test
     fun `many commands then hit an obstacle`() {
         val planet = Planet(Size(5, 4), listOf(Obstacle(2, 0), Obstacle(0, 3), Obstacle(3, 2)))

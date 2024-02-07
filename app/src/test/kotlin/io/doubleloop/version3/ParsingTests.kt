@@ -10,7 +10,6 @@ import strikt.assertions.isEqualTo
 
 class ParsingTests {
 
-    @Disabled
     @Test
     fun `go to opposite angle`() {
         val planet = Pair("5x4", "2,0 0,3 3,2")
@@ -22,7 +21,6 @@ class ParsingTests {
         expectThat(result).isEqualTo("4:3:E".right())
     }
 
-    @Disabled
     @Test
     fun `hit obstacle during commands execution`() {
         val planet = Pair("5x4", "2,0 0,3 3,2")
@@ -34,7 +32,6 @@ class ParsingTests {
         expectThat(result).isEqualTo("O:1:0:E".right())
     }
 
-    @Disabled
     @Test
     fun `invalid planet input data`() {
         val planet = Pair("ax4", "2,0 0,3 3,2")
