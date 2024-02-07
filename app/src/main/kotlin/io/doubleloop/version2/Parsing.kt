@@ -11,8 +11,13 @@ package io.doubleloop.version2
  */
 
 import arrow.core.Either
+import arrow.core.left
+import arrow.core.raise.either
+import arrow.core.right
+import io.doubleloop.version2.ParseError.InvalidCommand
+import io.doubleloop.version2.ParseError.InvalidPlanet
+import io.doubleloop.version2.ParseError.InvalidRover
 
-// TODO 1: get familiar withParseError sum type
 sealed class ParseError {
     data class InvalidPlanet(val message: String) : ParseError()
     data class InvalidRover(val message: String) : ParseError()
@@ -32,82 +37,114 @@ fun parsePair(separator: String, input: String): Either<Throwable, Pair<Int, Int
         Pair(first, second)
     }
 
-// TODO 2: parse input in a pair, then in a position and set proper error
 // INPUT EXAMPLE: "2,0" -> Right(Position(2, 0))
 // INPUT EXAMPLE: "20" -> Left(InvalidPlanet("Invalid position"))
 // HINT: combination phase normal (Functor)
 fun parsePosition(input: String): Either<ParseError, Position> =
-    TODO()
+    parsePair(",", input)
+        .mapLeft { InvalidRover("invalid position: $input") }
+        .map { Position(it.first, it.second) }
 
-// TODO 3: parse input in a orientation or returns an error
 // INPUT EXAMPLE: "N" -> Right(N)
 // INPUT EXAMPLE: "X" -> Left(InvalidPlanet("Invalid orientation"))
 // HINT: creation phase
 fun parseOrientation(input: String): Either<ParseError, Orientation> =
-    TODO()
+    when (input.uppercase()) {
+        "N" -> Orientation.N.right()
+        "E" -> Orientation.E.right()
+        "W" -> Orientation.W.right()
+        "S" -> Orientation.S.right()
+        else -> InvalidRover("invalid orientation: $input").left()
+    }
 
-// TODO 4: parse the pair in a rover and set proper error
 // INPUT EXAMPLE: ("2,0", "N") -> Right(Rover(Position(2, 0), N))
 // HINT: combination phase many (Applicative)
 fun parseRover(input: Pair<String, String>): Either<ParseError, Rover> =
-    TODO()
+    either {
+        val position = parsePosition(input.first).bind()
+        val orientation = parseOrientation(input.second).bind()
+        Rover(position, orientation)
+    }
 
-// TODO 5: parse input in a pair, then in a size and set proper error
 // INPUT EXAMPLE: "5x4" -> Right(Size(5, 4))
 // HINT: combination phase normal (Functor)
 fun parseSize(input: String): Either<ParseError, Size> =
-    TODO()
+    parsePair("x", input)
+        .mapLeft { InvalidPlanet("invalid size: $input") }
+        .map { Size(it.first, it.second) }
 
-// TODO 6: parse input in a pair, then in an obstacle and set proper error
 // INPUT EXAMPLE: "2,0" -> Right(Obstacle(2, 0))
 // HINT: combination phase normal (Functor)
 fun parseObstacle(input: String): Either<ParseError, Obstacle> =
-    TODO()
+    parsePair(",", input)
+        .mapLeft { InvalidPlanet("Invalid obstacle") }
+        .map { Obstacle(it.first, it.second) }
 
-// TODO 7: split input by space and parse each part in an obstacle and combine in one result
 // INPUT EXAMPLE: "2,0 0,3" -> Right(listOf(Obstacle(2, 0), Obstacle(0, 3)))
 // HINT: combination phase list (Traversal)
 fun parseObstacles(input: String): Either<ParseError, List<Obstacle>> =
-    TODO()
+    input.split(" ")
+        .map { parseObstacle(it) }
+        .let { either { it.bindAll() } }
+        .mapLeft { InvalidPlanet("invalid obstacles: $input") }
 
-// TODO 8: parse pair in a planet and set proper error
+fun parseObstaclesAlternative(input: String): Either<ParseError, List<Obstacle>> =
+    either {
+        input.split(" ")
+            .map { parseObstacle(it).bind() }
+    }
+
 // INPUT EXAMPLE: ("5x4", "2,0 0,3") -> Right(Planet(Size(5, 4), listOf(Obstacle(2, 0), Obstacle(0, 3))))
 // HINT: combination phase many (Applicative)
 fun parsePlanet(input: Pair<String, String>): Either<ParseError, Planet> =
-    TODO()
+    either {
+        val size = parseSize(input.first).bind()
+        val obstacles = parseObstacles(input.second).bind()
+        Planet(size, obstacles)
+    }
 
-// TODO 9: parse input in a command or returns an error
 // INPUT EXAMPLE: "B" -> Right(MoveBackward)
 // INPUT EXAMPLE: "X" -> Left(InvalidCommand("Invalid command"))
 // HINT: creation phase
 fun parseCommand(input: Char): Either<ParseError, Command> =
-    TODO()
+    when (input.uppercase()) {
+        "B" -> Command.MoveBackward.right()
+        "F" -> Command.MoveForward.right()
+        "L" -> Command.TurnLeft.right()
+        "R" -> Command.TurnRight.right()
+        else -> InvalidCommand("invalid command: $input").left()
+    }
 
-// TODO 10: parse each char in a command and combine in one result
 // INPUT EXAMPLE: "BFLR" -> Right(listOf(MoveBackward, MoveForward, TurnLeft, TurnRight))
 // INPUT EXAMPLE: "BFXLR" -> Left(InvalidCommand("Invalid command"))
 // HINT: combination phase list (Traversal)
 fun parseCommands(input: String): Either<ParseError, List<Command>> =
-    TODO()
+    either {
+        input.toCharArray()
+            .map { parseCommand(it).bind() }
+    }
 
-// TODO 11: call `domain.executeAll` with parsed planet, rover and commands
 // HINT: combination phase many (Applicative)
 fun runMission(
     inputPlanet: Pair<String, String>,
     inputRover: Pair<String, String>,
     inputCommands: String
 ): Either<ParseError, Rover> =
-    TODO()
+    either {
+        val planet = parsePlanet(inputPlanet).bind()
+        val rover = parseRover(inputRover).bind()
+        val commands = parseCommands(inputCommands).bind()
+        executeAll(planet, rover, commands)
+    }
 
-// TODO 12: convert the rover in a string
 // OUTPUT EXAMPLE: Rover(Position(3, 2), N) -> "3:2:S"
 fun renderComplete(rover: Rover): String =
-    TODO()
+    "${rover.position.x}:${rover.position.y}:${rover.orientation}"
 
-// TODO 13: call `runMission` and render the result
 fun runApp(
     inputPlanet: Pair<String, String>,
     inputRover: Pair<String, String>,
     inputCommands: String
 ): Either<ParseError, String> =
-    TODO()
+    runMission(inputPlanet, inputRover, inputCommands)
+        .map { renderComplete(it) }

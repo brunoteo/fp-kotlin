@@ -12,7 +12,6 @@ import strikt.assertions.isEqualTo
 
 class ParsingTests {
 
-    @Disabled
     @Test
     fun `parse valid size`() {
         val input = "5x4"
@@ -22,7 +21,6 @@ class ParsingTests {
         expectThat(result).isEqualTo(Size(5, 4).right())
     }
 
-    @Disabled
     @ParameterizedTest
     @ValueSource(strings = ["a,0", "2,a", "2", ",", "apple"])
     fun `parse invalid size`(input: String) {
@@ -31,7 +29,6 @@ class ParsingTests {
         expectThat(result).isEqualTo(InvalidPlanet("invalid size: $input").left())
     }
 
-    @Disabled
     @Test
     fun `parse valid obstacles`() {
         val input = "2,0 0,3"
@@ -41,7 +38,6 @@ class ParsingTests {
         expectThat(result).isEqualTo(listOf(Obstacle(2, 0), Obstacle(0, 3)).right())
     }
 
-    @Disabled
     @ParameterizedTest
     @ValueSource(strings = ["20 0,3", "2,0 03", "apple"])
     fun `parse invalid obstacles`(input: String) {
@@ -51,7 +47,6 @@ class ParsingTests {
         expectThat(result).isEqualTo(InvalidPlanet("invalid obstacles: $input").left())
     }
 
-    @Disabled
     @Test
     fun `go to opposite angle`() {
         val planet = Pair("5x4", "2,0 0,3 3,2")
@@ -63,7 +58,6 @@ class ParsingTests {
         expectThat(result).isEqualTo("4:3:E".right())
     }
 
-    @Disabled
     @Test
     fun `invalid planet input data`() {
         val planet = Pair("ax4", "2,0 0,3 3,2")
@@ -75,7 +69,6 @@ class ParsingTests {
         expectThat(result).isEqualTo(InvalidPlanet("invalid size: ax4").left())
     }
 
-    @Disabled
     @Test
     fun `invalid rover input data`() {
         val planet = Pair("5x4", "2,0 0,3 3,2")
@@ -87,7 +80,6 @@ class ParsingTests {
         expectThat(result).isEqualTo(InvalidRover("invalid orientation: X").left())
     }
 
-    @Disabled
     @Test
     fun `unknown command`() {
         val planet = Pair("5x4", "2,0 0,3 3,2")
