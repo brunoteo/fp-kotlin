@@ -1,7 +1,6 @@
 package io.doubleloop.version3
 
 import arrow.core.Either
-import arrow.core.flatMap
 import arrow.core.left
 import arrow.core.raise.either
 import arrow.core.right
@@ -30,12 +29,12 @@ fun runApp(
     inputCommands: String
 ): Either<ParseError, String> =
     runMission(inputPlanet, inputRover, inputCommands)
-        .map {
-            it.fold(
-                { obstacleDetected -> renderObstacle(obstacleDetected) },
-                { rover -> renderComplete(rover) }
-            )
-        }
+        .map { renderMission(it) }
+
+private fun renderMission(rover: Either<ObstacleDetected, Rover>) = rover.fold(
+    { renderObstacle(it) },
+    { renderComplete(it) }
+)
 
 fun runMission(
     inputPlanet: Pair<String, String>,
