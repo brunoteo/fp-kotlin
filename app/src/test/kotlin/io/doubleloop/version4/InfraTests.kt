@@ -15,7 +15,6 @@ import java.io.PrintStream
 
 class InfraTests {
 
-    @Disabled
     @Test
     fun `load planet`() = runTest {
         val result = loadPlanet("planet.txt")
@@ -23,7 +22,6 @@ class InfraTests {
         expectThat(result).isEqualTo(planet)
     }
 
-    @Disabled
     @Test
     fun `load rover`() = runTest {
         val result = loadRover("rover.txt")
@@ -31,7 +29,6 @@ class InfraTests {
         expectThat(result).isEqualTo(rover)
     }
 
-    @Disabled
     @Test
     fun `load commands`() = runTest {
         val result = runConsole("RRF") {
@@ -41,7 +38,6 @@ class InfraTests {
         expectThat(result).isEqualTo(commands)
     }
 
-    @Disabled
     @Test
     fun `go to opposite angle`() = runTest {
         val result = runCaptureOutput("RBBLBRF") {
@@ -50,7 +46,6 @@ class InfraTests {
         expectThat(result).isEqualTo("${Console.GREEN}[OK] 4:3:E${Console.RESET}")
     }
 
-    @Disabled
     @Test
     fun `hit obstacle during commands execution`() = runTest {
         val result = runCaptureOutput("RFF") {
@@ -59,7 +54,6 @@ class InfraTests {
         expectThat(result).isEqualTo("${Console.GREEN}[OK] O:1:0:E${Console.RESET}")
     }
 
-    @Disabled
     @Test
     fun `invalid planet data`() = runTest {
         val result = runCaptureOutput("RBBLBRF") {
@@ -68,7 +62,6 @@ class InfraTests {
         expectThat(result).isEqualTo("${Console.RED}[ERROR] Planet parsing: invalid size: ax4${Console.RESET}")
     }
 
-    @Disabled
     @Test
     fun `invalid planet content`() = runTest {
         val result = runCaptureOutput("RBBLBRF") {
