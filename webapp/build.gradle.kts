@@ -17,7 +17,7 @@ dependencies {
     implementation("io.arrow-kt:arrow-core")
     implementation("io.arrow-kt:arrow-fx-coroutines")
 
-    implementation(platform("org.http4k:http4k-bom:5.13.2.0"))
+    implementation(platform("org.http4k:http4k-bom:5.13.9.0"))
     implementation("org.http4k:http4k-core")
     implementation("org.http4k:http4k-server-jetty")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
