@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation(platform("io.arrow-kt:arrow-stack:1.2.1"))
+    implementation(platform("io.arrow-kt:arrow-stack:1.2.3"))
     implementation("io.arrow-kt:arrow-core")
     implementation("io.arrow-kt:arrow-fx-coroutines")
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
