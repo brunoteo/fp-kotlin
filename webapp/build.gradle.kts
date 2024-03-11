@@ -21,7 +21,7 @@ dependencies {
     implementation("org.http4k:http4k-core")
     implementation("org.http4k:http4k-server-jetty")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
-    implementation("ch.qos.logback:logback-classic:1.4.14")
+    implementation("ch.qos.logback:logback-classic:1.5.3")
     implementation("com.ubertob.kondor:kondor-core:2.2.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
