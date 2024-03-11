@@ -1,17 +1,17 @@
-version: 2
+# version: 2
 
-updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    pull-request-branch-name:
-      separator: "-"
-    schedule:
-      interval: "weekly"
+# updates:
+#   - package-ecosystem: "github-actions"
+#     directory: "/"
+#     pull-request-branch-name:
+#       separator: "-"
+#     schedule:
+#       interval: "weekly"
 
-  - package-ecosystem: "gradle"
-    directory: "/"
-    open-pull-requests-limit: 100
-    pull-request-branch-name:
-      separator: "-"
-    schedule:
-      interval: "weekly"
+#   - package-ecosystem: "gradle"
+#     directory: "/"
+#     open-pull-requests-limit: 100
+#     pull-request-branch-name:
+#       separator: "-"
+#     schedule:
+#       interval: "weekly"
