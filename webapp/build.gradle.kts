@@ -26,7 +26,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testImplementation("io.strikt:strikt-core:0.34.1")
-    testImplementation("org.http4k:http4k-testing-strikt:5.13.2.0")
+    testImplementation("org.http4k:http4k-testing-strikt:5.14.1.0")
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
